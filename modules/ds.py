@@ -18,7 +18,7 @@ class DataStore():
             with open(path) as json_file:
                 self.data = json.load(json_file)
         else:
-                self.data = dict()
+                self.data = list()
 
         return self.data
     def save(self,data=None):
