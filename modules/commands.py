@@ -22,12 +22,12 @@ class CommandAdd(Command):
 
 class CommandDone(Command):
     def action(self, *param):
-        self.data_source.delete(param[0])
+        self.data_source.delete(int(param[0]))
         self.data_source.save()
 
 class CommandShow(Command):
     def action(self, *param):
-        dataset = self.data_source.get(None,-(param[0]+1),-1)
+        dataset = self.data_source.get(None,-(int(param[0])+1),-1)
 
         print('Title \t\t  Description')
         print('==============================')

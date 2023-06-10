@@ -1,14 +1,18 @@
-from modules import  commands
+from modules import  commands as cmd
 import argparse
 
 def run():
-    cmd = commands.CommanndsDict()
+    cmd_dict = cmd.CommanndsDict()
 
-    parser = argparse.ArgumentParser(description='My-todo script')
+    parser = argparse.ArgumentParser('My-todo console script')
+    subcmd = parser.add_subparsers(dest='command', required=True, metavar='command')
 
-    for cmd_name,cmd_descr in cmd.description():
-        parser.add_argument(cmd_name,type=str, help=cmd_descr)
+    for cmd_name, cmd_descr in cmd_dict.description():
+        subp = subcmd.add_parser(cmd_name,help = cmd_descr)
+        subp.add_argument('args',nargs='*')
+
     args = parser.parse_args()
-    print(args)
+    cmd_dict.action(args.command)(*args.args)
+
 if __name__ == '__main__':
     run()
