@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     print(dc.get())
     dc.save()
-    dc.delete(2)
+
     print(dc.get())
 
 
