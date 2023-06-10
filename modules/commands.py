@@ -56,26 +56,29 @@ class CommandSearch(Command):
 
 class CommanndsDict():
     def __init__(self):
+        ds = datasource.DataCollection()
         self.cmddict = dict()
+        self.add(CommandAdd(ds, 'add', 'Usage: my-todo add \'title\' \'description\' - Add one task to tasklist'))
+        self.add(CommandShow(ds, 'show', 'Usage: my-todo show {n} - Show n freshest task'))
+        self.add(CommandDone(ds, 'done', 'Usage: my-todo done {n} - Mark task with index n as cpmpleted and delete it'))
+        self.add(CommandSearch(ds, 'done', 'Usage: my-todo search {string} - Search string in title and description and print it'))
 
     def add(self, command_class ):
         cmd,_descr = command_class.get_descr()
         self.cmddict[cmd] = command_class
 
-    def get(self,cmd):
-        return self.cmddict[cmd]
+    def action(self,cmd):
+        return self.cmddict[cmd].action
+    def description(self,cmd):
+        return self.cmddict[cmd].get_descr()
+
 
 if __name__ == '__main__':
-    ds = datasource.DataCollection()
+
     cd = CommanndsDict()
 
-    cd.add(CommandAdd(ds,'add','Adds tasks'))
-    cd.add(CommandShow(ds,'show', 'ShowTasks'))
-    cd.add(CommandDone(ds, 'done', 'Command Done'))
-    cd.add(CommandSearch(ds, 'search', 'Command search'))
-
-    f = cd.get('show')
-    f.action(100)
+    cd.action('show')(1000)
+    print(cd.description('add'))
     pass
 
 
