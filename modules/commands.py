@@ -1,17 +1,17 @@
 from modules import data_collection as datasource
 class Command():
 
-    def __init__(self,data_source,command,help):
+    def __init__(self,data_source,command,descr):
         self.data_source = data_source
         self.command = command
-        self.help = help
+        self.descr = descr
 
 
     def action(self,*param):
         print(param)
 
     def  get_descr(self):
-        return self.command, self.help
+        return self.command, self.descr
 
 
 class CommandAdd(Command):
@@ -61,16 +61,23 @@ class CommanndsDict():
         self.add(CommandAdd(ds, 'add', 'Usage: my-todo add \'title\' \'description\' - Add one task to tasklist'))
         self.add(CommandShow(ds, 'show', 'Usage: my-todo show {n} - Show n freshest task'))
         self.add(CommandDone(ds, 'done', 'Usage: my-todo done {n} - Mark task with index n as cpmpleted and delete it'))
-        self.add(CommandSearch(ds, 'done', 'Usage: my-todo search {string} - Search string in title and description and print it'))
+        self.add(CommandSearch(ds, 'search', 'Usage: my-todo search {string} - Search string in title and description and print it'))
 
     def add(self, command_class ):
         cmd,_descr = command_class.get_descr()
         self.cmddict[cmd] = command_class
 
+
     def action(self,cmd):
         return self.cmddict[cmd].action
-    def description(self,cmd):
-        return self.cmddict[cmd].get_descr()
+
+
+    def description(self,cmd=None):
+        if cmd:
+            return self.cmddict[cmd].get_descr()
+        else:
+            for item in self.cmddict.values():
+                yield item.get_descr()
 
 
 if __name__ == '__main__':
