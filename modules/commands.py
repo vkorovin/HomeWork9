@@ -54,11 +54,28 @@ class CommandSearch(Command):
             record = self.data_source.get(item)
             print("{0} \t\t {1}".format(record[0]['title'], record[0]['description']))
 
+class CommanndsDict():
+    def __init__(self):
+        self.cmddict = dict()
 
+    def add(self, command_class ):
+        cmd,_descr = command_class.get_descr()
+        self.cmddict[cmd] = command_class
 
+    def get(self,cmd):
+        return self.cmddict[cmd]
 
 if __name__ == '__main__':
     ds = datasource.DataCollection()
-    cmd = CommandSearch(ds,'show','Show N fresh tasks')
-    cmd.action('Title')
+    cd = CommanndsDict()
+
+    cd.add(CommandAdd(ds,'add','Adds tasks'))
+    cd.add(CommandShow(ds,'show', 'ShowTasks'))
+    cd.add(CommandDone(ds, 'done', 'Command Done'))
+    cd.add(CommandSearch(ds, 'search', 'Command search'))
+
+    f = cd.get('show')
+    f.action(100)
+    pass
+
 
