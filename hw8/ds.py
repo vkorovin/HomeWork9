@@ -8,7 +8,7 @@ class DataStore():
     def __init__(self,path=None):
         if not path: # if path not defined store date in ../data/todo.store
             abspath =  Path().absolute()
-            self.path = '/'+'/'.join(abspath.parts[1:-1:]+('data',)) + '/todo.store'
+            self.path = '/'+'/'.join(abspath.parts) + '/todo.store'
         else:
             self.path = path
 

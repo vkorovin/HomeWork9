@@ -1,4 +1,4 @@
-from modules import data_collection as datasource
+from hw8 import data_collection as datasource
 class Command():
 
     def __init__(self,data_source,command,descr):
@@ -22,14 +22,14 @@ class CommandAdd(Command):
 
 class CommandDone(Command):
     def action(self, *param):
-        self.data_source.delete(int(param[0]))
+        self.data_source.delete(int(param[0])-1)
         self.data_source.save()
 
 class CommandShow(Command):
     def action(self, *param):
         dataset = self.data_source.get(None,-(int(param[0])+1),-1)
 
-        print('Title \t\t  Description')
+        print('Title \t\t Description')
         print('==============================')
 
         for item in dataset:
@@ -47,7 +47,7 @@ class CommandSearch(Command):
             except:
                 index_list1 += (item,)
         print('Found {0} tasks:'.format(len(index_list1)))
-        print('Title \t\t\t Description')
+        print('Title \t\t Description')
         print('==============================')
 
         for item in index_list1:
