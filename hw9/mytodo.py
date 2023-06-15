@@ -1,15 +1,17 @@
-from hw8 import  commands as cmd
+from hw9 import  commands as cmd
 import argparse
 
-def run():
+
+def run() -> None:
     cmd_dict = cmd.CommanndsDict()
 
     parser = argparse.ArgumentParser('My-todo console script')
     subcmd = parser.add_subparsers(dest='command', required=True, metavar='command')
 
-    for cmd_name, cmd_descr in cmd_dict.description():
+    for cmd_name, cmd_descr, cmd_atype  in cmd_dict.description():
         subp = subcmd.add_parser(cmd_name,help = cmd_descr)
-        subp.add_argument('args',nargs='*')
+        for cmd_arg in cmd_atype:
+            subp.add_argument(cmd_arg[0],nargs=1,type=cmd_arg[1])
 
     args = parser.parse_args()
     cmd_dict.action(args.command)(*args.args)

@@ -4,22 +4,23 @@ from typing import final,  Union, Optional, Callable
 
 class Command :
 
-    def __init__(self,data_source: datasource.DataCollection, command:str, descr:str) -> None :
+    def __init__(self,data_source: datasource.DataCollection, command:str, descr:str, atype: tuple[object]) -> None :
         self.data_source = data_source
         self.command = command
         self.descr = descr
+        self.atype = atype
 
 
     def action(self, *param: Union[int,str] ) -> None :
         print(param)
 
-    def  get_descr(self) -> tuple[str, str] :
-        return self.command, self.descr
+    def  get_descr(self) -> tuple[str, str, tuple[object]] :
+        return self.command, self.descr, self.atype
 
 
 @final
 class CommandAdd(Command):
-    def action(self, *param: Union[int,str]) -> None :
+     def action(self, *param: Union[int,str]) -> None :
         self.data_source.add(param[0],param[1])
         self.data_source.save()
 
@@ -68,13 +69,13 @@ class CommanndsDict:
     def __init__(self) -> None :
         ds = datasource.DataCollection()
         self.cmddict:dict[str, Command] = dict()
-        self.add(CommandAdd(ds, 'add', 'Usage: my-todo add \'title\' \'description\' - Add one task to tasklist'))
-        self.add(CommandShow(ds, 'show', 'Usage: my-todo show {n} - Show n freshest task'))
-        self.add(CommandDone(ds, 'done', 'Usage: my-todo done {n} - Mark task with index n as cpmpleted and delete it'))
-        self.add(CommandSearch(ds, 'search', 'Usage: my-todo search {string} - Search string in title and description and print it'))
+        self.add(CommandAdd(ds, 'add', 'Usage: my-todo add \'title\' \'description\' - Add one task to tasklist',(('tile',str),('description',str))))
+        self.add(CommandShow(ds, 'show', 'Usage: my-todo show {n} - Show n freshest task',(('N',int),)))
+        self.add(CommandDone(ds, 'done', 'Usage: my-todo done {n} - Mark task with index n as cpmpleted and delete it',(('N',int),)))
+        self.add(CommandSearch(ds, 'search', 'Usage: my-todo search {string} - Search string in title and description and print it',(('sting',str),)))
 
     def add(self, command_class: Command ) -> None :
-        cmd,_descr = command_class.get_descr()
+        cmd,_descr, _atype = command_class.get_descr()
         self.cmddict[cmd] = command_class
 
 
