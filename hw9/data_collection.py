@@ -1,6 +1,6 @@
 from hw9 import ds
 import re
-from typing import final, Optional
+from typing import final, Optional, Union
 
 
 DataSet = list[dict[ str, str]]
@@ -13,7 +13,7 @@ class DataCollection:
         self.data=self.datastore.load()
 
 
-    def add(self, title: str, description:str) -> None :
+    def add(self, title: Union[int,str], description:Union[int,str]) -> None :
         self.data.append({'title':title,'description':description})
 
 
@@ -25,7 +25,7 @@ class DataCollection:
         return self.data[start:stop:step]
 
 
-    def search(self,field:str, value:str) -> tuple[int, ...] :
+    def search(self,field:Union[int,str], value:Union[int,str]) -> tuple[int, ...] :
         index = 0
         found: tuple[int, ...] =()
         for item in self.data:
