@@ -1,5 +1,5 @@
 from hw9 import data_collection as datasource
-from typing import final,  Union, Optional
+from typing import final,  Union, Optional, Callable
 
 
 class Command :
@@ -10,7 +10,7 @@ class Command :
         self.descr = descr
 
 
-    def action(self,*param: Union[int,str] ) -> None :
+    def action(self, *param: Union[int,str] ) -> None :
         print(param)
 
     def  get_descr(self) -> tuple[str, str] :
@@ -78,7 +78,7 @@ class CommanndsDict:
         self.cmddict[cmd] = command_class
 
 
-    def action(self, cmd:str) :
+    def action(self, cmd:str) -> Callable[[Union[int,str]],None]:
         return self.cmddict[cmd].action
 
 
