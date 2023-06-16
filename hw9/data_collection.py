@@ -13,7 +13,7 @@ class DataCollection:
         self.data=self.datastore.load()
 
 
-    def add(self, title: Union[int,str], description:Union[int,str]) -> None :
+    def add(self, title: Union[str,int], description:Union[str,int]) -> None :
         self.data.append({'title':title,'description':description})
 
 
@@ -25,11 +25,12 @@ class DataCollection:
         return self.data[start:stop:step]
 
 
-    def search(self,field:Union[int,str], value:Union[int,str]) -> tuple[int, ...] :
+    def search(self,field:str, value:Union[str,int]) -> tuple[int, ...] :
         index = 0
         found: tuple[int, ...] =()
         for item in self.data:
-            if re.search(value,item[field]):
+            string:str = item[field]
+            if re.search(value,string):
                 found += (index,)
             index += 1
         return found

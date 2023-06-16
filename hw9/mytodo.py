@@ -2,7 +2,8 @@ from hw9 import  commands as cmd
 import argparse
 
 
-def convert_args(fake_kwargs) -> list:
+
+def convert_args(fake_kwargs:list[tuple[str,object]]) -> list[object]:
 
     myargs = list()
 
