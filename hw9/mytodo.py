@@ -1,4 +1,4 @@
-from hw9 import  commands as cmd
+from hw9 import commands as cmd
 import argparse
 
 
@@ -27,8 +27,8 @@ def run() -> None:
 
     for cmd_name, cmd_descr, cmd_atype  in cmd_dict.description():
         subp = subcmd.add_parser(cmd_name, help = cmd_descr)
-        for cmd_arg in cmd_atype:
-            subp.add_argument(cmd_arg[0],nargs=1, type=cmd_arg[1])
+        for cmd_arg in cmd_atype.keys():
+            subp.add_argument(cmd_arg,nargs=1, type=cmd_atype[cmd_arg])
 
     args = parser.parse_args()
     fake_kwargs = args._get_kwargs()

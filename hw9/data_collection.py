@@ -3,9 +3,6 @@ import re
 from typing import final, Optional, Union
 
 
-DataSet = list[dict[ str, str]]
-
-
 @final
 class DataCollection:
     def __init__(self) -> None:
@@ -13,7 +10,7 @@ class DataCollection:
         self.data=self.datastore.load()
 
 
-    def add(self, title: Union[str,int], description:Union[str,int]) -> None :
+    def add(self, title: str, description:str) -> None :
         self.data.append({'title':title,'description':description})
 
 
@@ -21,7 +18,7 @@ class DataCollection:
         self.data.pop(index)
 
 
-    def get(self,start:Optional[int]=None, stop:Optional[int]=None,step:Optional[int]=None) -> DataSet:
+    def get(self,start:Optional[int]=None, stop:Optional[int]=None,step:Optional[int]=None) -> list[Union[str,int]] :
         return self.data[start:stop:step]
 
 

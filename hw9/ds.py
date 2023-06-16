@@ -1,8 +1,7 @@
 from pathlib import Path
 import json
-from typing import final, Optional
+from typing import final, Optional, Union
 
-DataSet = list[dict[ str, str]]
 
 
 @final
@@ -16,9 +15,9 @@ class DataStore:
         else:
             self.path = path
 
-    def load(self) -> DataSet:
+    def load(self) -> list[Union[str,int]]:
 
-        self.data: DataSet = list()
+        self.data = list()
         path = Path(self.path)
         if path.is_file():
             with open(path) as json_file:
@@ -26,7 +25,7 @@ class DataStore:
 
         return self.data
 
-    def save(self, data: Optional[DataSet] = None) -> None:
+    def save(self, data: Optional[list[str]] = None) -> None:
 
         with open(self.path, 'w') as json_file:
             if data:
